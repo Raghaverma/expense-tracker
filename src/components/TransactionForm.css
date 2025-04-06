@@ -1,0 +1,432 @@
+.transaction-form-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: hsl(var(--background) / 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.transaction-form {
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: var(--shadow-lg);
+  animation: formSlide 0.2s ease-out;
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.form-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  margin: 0;
+}
+
+.close-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius);
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--muted-foreground));
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.close-button:hover {
+  background-color: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+  border-color: hsl(var(--border));
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--secondary));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  transition: all 0.15s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: hsl(var(--ring));
+  box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring));
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: hsl(var(--muted-foreground));
+}
+
+.type-selector {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.type-button {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+  background-color: hsl(var(--secondary));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.type-button.active {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border-color: transparent;
+}
+
+.type-button:hover:not(.active) {
+  background-color: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+}
+
+.submit-button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--primary-foreground));
+  background-color: hsl(var(--primary));
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.submit-button:hover {
+  background-color: hsl(var(--primary) / 0.9);
+}
+
+.submit-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: hsl(var(--destructive));
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+@keyframes formSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.recurring-options {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: hsl(var(--secondary));
+  border-radius: var(--radius);
+  border: 1px solid hsl(var(--border));
+}
+
+.recurring-options h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+  margin-bottom: 0.75rem;
+}
+
+.frequency-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.frequency-button {
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  background-color: hsl(var(--secondary));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.frequency-button.active {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border-color: transparent;
+}
+
+.frequency-button:hover:not(.active) {
+  background-color: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+}
+
+.form-title {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+
+.form-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.form-group.has-error .form-input {
+  border-color: var(--danger-color);
+  background-color: rgba(var(--danger-rgb), 0.05);
+}
+
+.form-group.has-error .form-label {
+  color: var(--danger-color);
+}
+
+.type-button-icon {
+  font-size: 1.25rem;
+  transition: transform 0.3s ease;
+}
+
+.type-button:hover .type-button-icon {
+  transform: scale(1.1);
+}
+
+.category-select {
+  appearance: none;
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1rem;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: var(--transition);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 48px;
+}
+
+.category-select:hover {
+  border-color: var(--primary-color);
+}
+
+.category-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+  background-color: var(--card-bg);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  .transaction-form {
+    padding: 20px;
+  }
+
+  .form-header {
+    margin-bottom: 24px;
+  }
+
+  .form-header::after {
+    bottom: -12px;
+    width: 50px;
+  }
+
+  .form-title {
+    font-size: 1.25rem;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .type-selector {
+    margin-bottom: 24px;
+  }
+
+  .type-button {
+    padding: 12px;
+  }
+
+  .form-input,
+  .category-select {
+    padding: 12px 14px;
+  }
+
+  .category-select {
+    padding-right: 40px;
+    background-position: right 14px center;
+  }
+
+  .submit-button {
+    padding: 14px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.tags-input-container {
+  margin-top: 8px;
+}
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  font-size: 0.875rem;
+  color: var(--text-color);
+  transition: var(--transition);
+}
+
+.tag:hover {
+  background-color: var(--card-bg);
+  border-color: var(--primary-color);
+  transform: translateY(-1px);
+}
+
+.tag-remove {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  margin-left: 6px;
+  padding: 0 4px;
+  cursor: pointer;
+  font-size: 1.125rem;
+  line-height: 1;
+  transition: var(--transition);
+}
+
+.tag-remove:hover {
+  color: var(--danger-color);
+}
+
+.tags-input-wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.tag-add-button {
+  padding: 0 16px;
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-color);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.tag-add-button:hover {
+  background-color: var(--card-bg);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.recurring-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.recurring-group .category-select {
+  width: auto;
+  min-width: 120px;
+}
+
+.submit-error {
+  margin-bottom: 16px;
+  padding: 12px;
+  background-color: rgba(var(--danger-rgb), 0.1);
+  border-radius: 8px;
+  border: 1px solid var(--danger-color);
+}
+
+textarea.form-input {
+  resize: vertical;
+  min-height: 80px;
+} 
