@@ -1,174 +1,219 @@
-import React, { useState, useEffect } from 'react';
-import './TransactionForm.css';
+import React, { useState, useEffect } from "react";
+import "./TransactionForm.css";
 
-const TransactionForm = ({ onAddTransaction, editingTransaction, onUpdateTransaction }) => {
-  const initialFormState = {
-    type: 'expense',
-    category: '',
-    amount: '',
-    description: '',
-    date: new Date().toISOString().split('T')[0],
-    paymentMethod: 'cash',
+// Add prop types for TransactionForm
+interface TransactionFormProps {
+  onAddTransaction: (transaction: any) => void;
+  editingTransaction?: any;
+  onUpdateTransaction?: (transaction: any) => void;
+}
+
+interface TransactionFormData {
+  type: string;
+  category: string;
+  amount: string;
+  description: string;
+  date: string;
+  paymentMethod: string;
+  tags: string[];
+  notes: string;
+  recurring: boolean;
+  recurringPeriod: string;
+}
+
+interface TransactionFormErrors {
+  category?: string;
+  amount?: string;
+  description?: string;
+  date?: string;
+  submit?: string;
+  [key: string]: string | undefined;
+}
+
+const TransactionForm = ({
+  onAddTransaction,
+  editingTransaction,
+  onUpdateTransaction,
+}: TransactionFormProps) => {
+  const initialFormState: TransactionFormData = {
+    type: "expense",
+    category: "",
+    amount: "",
+    description: "",
+    date: new Date().toISOString().split("T")[0],
+    paymentMethod: "cash",
     tags: [],
-    notes: '',
+    notes: "",
     recurring: false,
-    recurringPeriod: 'monthly'
+    recurringPeriod: "monthly",
   };
 
-  const [formData, setFormData] = useState(initialFormState);
-  const [errors, setErrors] = useState({});
-  const [tagInput, setTagInput] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] =
+    useState<TransactionFormData>(initialFormState);
+  const [errors, setErrors] = useState<TransactionFormErrors>({});
+  const [tagInput, setTagInput] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
     if (editingTransaction) {
       setFormData({
         ...editingTransaction,
-        date: new Date(editingTransaction.date).toISOString().split('T')[0]
+        date: new Date(editingTransaction.date).toISOString().split("T")[0],
+        tags: editingTransaction.tags || [],
       });
     }
   }, [editingTransaction]);
 
-  const categories = {
+  const categories: Record<
+    string,
+    { id: string; label: string; icon: string }[]
+  > = {
     expense: [
-      { id: 'rent', label: 'Rent/Mortgage', icon: '🏠' },
-      { id: 'utilities', label: 'Utilities', icon: '💡' },
-      { id: 'food', label: 'Food & Dining', icon: '🍕' },
-      { id: 'transport', label: 'Transportation', icon: '🚗' },
-      { id: 'entertainment', label: 'Entertainment', icon: '🎮' },
-      { id: 'shopping', label: 'Shopping', icon: '🛍️' },
-      { id: 'health', label: 'Healthcare', icon: '⚕️' },
-      { id: 'travel', label: 'Travel', icon: '✈️' },
-      { id: 'education', label: 'Education', icon: '📚' },
-      { id: 'other', label: 'Other', icon: '📝' }
+      { id: "rent", label: "Rent/Mortgage", icon: "🏠" },
+      { id: "utilities", label: "Utilities", icon: "💡" },
+      { id: "food", label: "Food & Dining", icon: "🍕" },
+      { id: "transport", label: "Transportation", icon: "🚗" },
+      { id: "entertainment", label: "Entertainment", icon: "🎮" },
+      { id: "shopping", label: "Shopping", icon: "🛍️" },
+      { id: "health", label: "Healthcare", icon: "⚕️" },
+      { id: "travel", label: "Travel", icon: "✈️" },
+      { id: "education", label: "Education", icon: "📚" },
+      { id: "other", label: "Other", icon: "📝" },
     ],
     income: [
-      { id: 'salary', label: 'Salary', icon: '💰' },
-      { id: 'freelance', label: 'Freelance', icon: '💻' },
-      { id: 'investment', label: 'Investments', icon: '📈' },
-      { id: 'rental', label: 'Rental Income', icon: '🏘️' },
-      { id: 'gift', label: 'Gifts', icon: '🎁' },
-      { id: 'other', label: 'Other', icon: '📝' }
-    ]
+      { id: "salary", label: "Salary", icon: "💰" },
+      { id: "freelance", label: "Freelance", icon: "💻" },
+      { id: "investment", label: "Investments", icon: "📈" },
+      { id: "rental", label: "Rental Income", icon: "🏘️" },
+      { id: "gift", label: "Gifts", icon: "🎁" },
+      { id: "other", label: "Other", icon: "📝" },
+    ],
   };
 
   const paymentMethods = [
-    { id: 'cash', label: 'Cash', icon: '💵' },
-    { id: 'credit', label: 'Credit Card', icon: '💳' },
-    { id: 'debit', label: 'Debit Card', icon: '🏧' },
-    { id: 'bank', label: 'Bank Transfer', icon: '🏦' },
-    { id: 'mobile', label: 'Mobile Payment', icon: '📱' }
+    { id: "cash", label: "Cash", icon: "💵" },
+    { id: "credit", label: "Credit Card", icon: "💳" },
+    { id: "debit", label: "Debit Card", icon: "🏧" },
+    { id: "bank", label: "Bank Transfer", icon: "🏦" },
+    { id: "mobile", label: "Mobile Payment", icon: "📱" },
   ];
 
-  const validateForm = () => {
-    const newErrors = {};
-    
+  const validateForm = (): TransactionFormErrors => {
+    const newErrors: TransactionFormErrors = {};
+
     // Required fields
     if (!formData.category) {
-      newErrors.category = 'Category is required';
+      newErrors.category = "Category is required";
     }
-    
+
     // Amount validation
     if (!formData.amount) {
-      newErrors.amount = 'Amount is required';
+      newErrors.amount = "Amount is required";
     } else {
       const amount = parseFloat(formData.amount);
       if (isNaN(amount) || amount <= 0) {
-        newErrors.amount = 'Please enter a valid positive amount';
+        newErrors.amount = "Please enter a valid positive amount";
       }
     }
-    
+
     // Description validation
     if (!formData.description.trim()) {
-      newErrors.description = 'Description is required';
+      newErrors.description = "Description is required";
     }
-    
+
     // Date validation
     if (!formData.date) {
-      newErrors.date = 'Date is required';
+      newErrors.date = "Date is required";
     } else {
       const selectedDate = new Date(formData.date);
       if (isNaN(selectedDate.getTime())) {
-        newErrors.date = 'Please enter a valid date';
+        newErrors.date = "Please enter a valid date";
       }
     }
 
     return newErrors;
   };
 
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
+    const { name, value, type } = e.target;
+    let checked = false;
+    if (type === "checkbox" && "checked" in e.target) {
+      checked = (e.target as HTMLInputElement).checked;
+    }
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
-    // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: null }));
+      setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
   };
 
-  const handleTypeChange = (type) => {
-    setFormData(prev => ({
+  const handleTypeChange = (type: string) => {
+    setFormData((prev) => ({
       ...prev,
       type,
-      category: '' // Reset category when type changes
+      category: "",
     }));
   };
 
-  const handleTagAdd = (e) => {
+  const handleTagAdd = (
+    e:
+      | React.FormEvent<HTMLButtonElement>
+      | React.KeyboardEvent<HTMLInputElement>,
+  ) => {
     e.preventDefault();
     if (tagInput.trim() && !formData.tags.includes(tagInput.trim())) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        tags: [...prev.tags, tagInput.trim()]
+        tags: [...prev.tags, tagInput.trim()],
       }));
-      setTagInput('');
+      setTagInput("");
     }
   };
 
-  const handleTagRemove = (tagToRemove) => {
-    setFormData(prev => ({
+  const handleTagRemove = (tagToRemove: string) => {
+    setFormData((prev) => ({
       ...prev,
-      tags: prev.tags.filter(tag => tag !== tagToRemove)
+      tags: prev.tags.filter((tag) => tag !== tagToRemove),
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newErrors = validateForm();
-    
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-
     setIsSubmitting(true);
     try {
       const transactionData = {
         ...formData,
         amount: parseFloat(formData.amount),
-        date: new Date(formData.date).toISOString()
+        date: new Date(formData.date).toISOString(),
       };
-
-      if (editingTransaction) {
+      if (editingTransaction && onUpdateTransaction) {
         await onUpdateTransaction(transactionData);
       } else {
         await onAddTransaction(transactionData);
       }
-
-      // Reset form on success
       setFormData(initialFormState);
       setErrors({});
-      setTagInput('');
-      
-      // Show success message
-      const message = editingTransaction ? 'Transaction updated successfully!' : 'Transaction added successfully!';
-      alert(message); // You might want to replace this with a better notification system
-    } catch (error) {
-      console.error('Transaction error:', error);
+      setTagInput("");
+      const message = editingTransaction
+        ? "Transaction updated successfully!"
+        : "Transaction added successfully!";
+      alert(message);
+    } catch (error: any) {
+      console.error("Transaction error:", error);
       setErrors({
-        submit: error.message || 'Failed to save transaction. Please try again.'
+        submit:
+          error?.message || "Failed to save transaction. Please try again.",
       });
     } finally {
       setIsSubmitting(false);
@@ -179,28 +224,28 @@ const TransactionForm = ({ onAddTransaction, editingTransaction, onUpdateTransac
     <form className="transaction-form" onSubmit={handleSubmit}>
       <div className="form-header">
         <h2 className="form-title">
-          {editingTransaction ? 'Edit Transaction' : 'Add New Transaction'}
+          {editingTransaction ? "Edit Transaction" : "Add New Transaction"}
         </h2>
         <p className="form-subtitle">
-          {editingTransaction 
-            ? 'Update your transaction details below'
-            : 'Enter the details of your transaction below'}
+          {editingTransaction
+            ? "Update your transaction details below"
+            : "Enter the details of your transaction below"}
         </p>
       </div>
 
       <div className="type-selector">
         <button
           type="button"
-          className={`type-button ${formData.type === 'expense' ? 'active expense' : ''}`}
-          onClick={() => handleTypeChange('expense')}
+          className={`type-button ${formData.type === "expense" ? "active expense" : ""}`}
+          onClick={() => handleTypeChange("expense")}
         >
           <span className="type-button-icon">💸</span>
           <span>Expense</span>
         </button>
         <button
           type="button"
-          className={`type-button ${formData.type === 'income' ? 'active income' : ''}`}
-          onClick={() => handleTypeChange('income')}
+          className={`type-button ${formData.type === "income" ? "active income" : ""}`}
+          onClick={() => handleTypeChange("income")}
         >
           <span className="type-button-icon">💰</span>
           <span>Income</span>
@@ -208,7 +253,7 @@ const TransactionForm = ({ onAddTransaction, editingTransaction, onUpdateTransac
       </div>
 
       <div className="form-row">
-        <div className={`form-group ${errors.category ? 'has-error' : ''}`}>
+        <div className={`form-group ${errors.category ? "has-error" : ""}`}>
           <label className="form-label">Category</label>
           <select
             name="category"
@@ -217,11 +262,13 @@ const TransactionForm = ({ onAddTransaction, editingTransaction, onUpdateTransac
             onChange={handleInputChange}
           >
             <option value="">Select a category</option>
-            {categories[formData.type].map(cat => (
-              <option key={cat.id} value={cat.id}>
-                {cat.icon} {cat.label}
-              </option>
-            ))}
+            {categories[formData.type].map(
+              (cat: { id: string; label: string; icon: string }) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.icon} {cat.label}
+                </option>
+              ),
+            )}
           </select>
           {errors.category && (
             <div className="error-message">
@@ -231,7 +278,7 @@ const TransactionForm = ({ onAddTransaction, editingTransaction, onUpdateTransac
           )}
         </div>
 
-        <div className={`form-group ${errors.amount ? 'has-error' : ''}`}>
+        <div className={`form-group ${errors.amount ? "has-error" : ""}`}>
           <label className="form-label">Amount</label>
           <input
             type="number"
@@ -296,7 +343,7 @@ const TransactionForm = ({ onAddTransaction, editingTransaction, onUpdateTransac
             value={formData.paymentMethod}
             onChange={handleInputChange}
           >
-            {paymentMethods.map(method => (
+            {paymentMethods.map((method) => (
               <option key={method.id} value={method.id}>
                 {method.icon} {method.label}
               </option>
@@ -309,7 +356,7 @@ const TransactionForm = ({ onAddTransaction, editingTransaction, onUpdateTransac
         <label className="form-label">Tags</label>
         <div className="tags-input-container">
           <div className="tags-list">
-            {formData.tags.map(tag => (
+            {formData.tags.map((tag) => (
               <span key={tag} className="tag">
                 {tag}
                 <button
@@ -329,7 +376,7 @@ const TransactionForm = ({ onAddTransaction, editingTransaction, onUpdateTransac
               placeholder="Add tags (press Enter)"
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleTagAdd(e)}
+              onKeyPress={(e) => e.key === "Enter" && handleTagAdd(e)}
             />
             <button
               type="button"
@@ -350,7 +397,7 @@ const TransactionForm = ({ onAddTransaction, editingTransaction, onUpdateTransac
           placeholder="Add any additional notes"
           value={formData.notes}
           onChange={handleInputChange}
-          rows="3"
+          rows={3}
         />
       </div>
 
@@ -364,7 +411,7 @@ const TransactionForm = ({ onAddTransaction, editingTransaction, onUpdateTransac
           />
           <span>This is a recurring transaction</span>
         </label>
-        
+
         {formData.recurring && (
           <select
             name="recurringPeriod"
@@ -387,21 +434,17 @@ const TransactionForm = ({ onAddTransaction, editingTransaction, onUpdateTransac
         </div>
       )}
 
-      <button
-        type="submit"
-        className="submit-button"
-        disabled={isSubmitting}
-      >
+      <button type="submit" className="submit-button" disabled={isSubmitting}>
         <span>
-          {isSubmitting 
-            ? 'Saving...' 
-            : editingTransaction 
-              ? 'Update Transaction' 
-              : 'Add Transaction'}
+          {isSubmitting
+            ? "Saving..."
+            : editingTransaction
+              ? "Update Transaction"
+              : "Add Transaction"}
         </span>
       </button>
     </form>
   );
 };
 
-export default TransactionForm; 
+export default TransactionForm;

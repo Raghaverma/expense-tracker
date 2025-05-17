@@ -16,7 +16,7 @@
 }
 
 .hero-section::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -208,7 +208,11 @@
 
 .bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+  background: linear-gradient(
+    90deg,
+    hsl(var(--primary)),
+    hsl(var(--primary) / 0.8)
+  );
   border-radius: 4px;
   transition: width 0.3s ease;
 }
@@ -433,4 +437,4 @@
   .footer-links {
     grid-template-columns: 1fr;
   }
-} 
+}

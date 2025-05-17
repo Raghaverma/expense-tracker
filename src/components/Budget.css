@@ -136,7 +136,9 @@
 .form-group select:focus {
   outline: none;
   border-color: hsl(var(--ring));
-  box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring));
+  box-shadow:
+    0 0 0 2px hsl(var(--background)),
+    0 0 0 4px hsl(var(--ring));
 }
 
 .submit-button {
@@ -177,4 +179,4 @@
   .budget-grid {
     grid-template-columns: 1fr;
   }
-} 
+}

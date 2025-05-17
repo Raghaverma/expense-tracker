@@ -77,7 +77,11 @@
 .theme-toggle-btn {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-light)
+  );
   color: white;
   border: none;
   border-radius: 8px;
@@ -235,4 +239,4 @@ input:checked + .slider:before {
     flex-direction: column;
     align-items: center;
   }
-} 
+}

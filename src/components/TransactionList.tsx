@@ -1,16 +1,36 @@
-import React, { useState } from 'react';
-import './TransactionList.css';
-import Pagination from './Pagination';
+import React, { useState } from "react";
+import "./TransactionList.css";
+import Pagination from "./Pagination";
 
-const TransactionList = ({ transactions, onDeleteTransaction }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [filter, setFilter] = useState('all');
+type Transaction = {
+  id: string;
+  type: string;
+  category: string;
+  amount: number;
+  description: string;
+  date: string;
+  [key: string]: any;
+};
 
-  const filteredTransactions = transactions.filter(transaction => {
-    if (filter === 'all') return true;
-    return transaction.type === filter;
-  });
+type TransactionListProps = {
+  transactions: Transaction[];
+  onDeleteTransaction: (id: string) => void;
+};
+
+const TransactionList = ({
+  transactions,
+  onDeleteTransaction,
+}: TransactionListProps) => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
+  const [filter, setFilter] = useState<string>("all");
+
+  const filteredTransactions = transactions.filter(
+    (transaction: Transaction) => {
+      if (filter === "all") return true;
+      return transaction.type === filter;
+    },
+  );
 
   const totalItems = filteredTransactions.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -18,43 +38,47 @@ const TransactionList = ({ transactions, onDeleteTransaction }) => {
   const endIndex = startIndex + itemsPerPage;
   const currentTransactions = filteredTransactions.slice(startIndex, endIndex);
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  const handleItemsPerPageChange = (value) => {
+  const handleItemsPerPageChange = (value: number) => {
     setItemsPerPage(value);
     setCurrentPage(1);
   };
 
-  const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  const formatDate = (dateString: string) => {
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  const formatAmount = (amount) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
+  const formatAmount = (amount: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
     }).format(amount);
   };
 
-  const getCategoryIcon = (category) => {
-    const icons = {
-      rent: '🏠',
-      utilities: '💡',
-      food: '🍕',
-      transport: '🚗',
-      entertainment: '🎮',
-      shopping: '🛍️',
-      health: '⚕️',
-      travel: '✈️',
-      education: '📚',
-      salary: '💰',
-      investment: '📈',
-      other: '📝'
+  const getCategoryIcon = (category: string) => {
+    const icons: Record<string, string> = {
+      rent: "🏠",
+      utilities: "💡",
+      food: "🍕",
+      transport: "🚗",
+      entertainment: "🎮",
+      shopping: "🛍️",
+      health: "⚕️",
+      travel: "✈️",
+      education: "📚",
+      salary: "💰",
+      investment: "📈",
+      other: "📝",
     };
-    return icons[category] || '📝';
+    return icons[category] || "📝";
   };
 
   return (
@@ -63,20 +87,20 @@ const TransactionList = ({ transactions, onDeleteTransaction }) => {
         <h2 className="transaction-list-title">Recent Transactions</h2>
         <div className="transaction-filters">
           <button
-            className={`filter-button ${filter === 'all' ? 'active' : ''}`}
-            onClick={() => setFilter('all')}
+            className={`filter-button ${filter === "all" ? "active" : ""}`}
+            onClick={() => setFilter("all")}
           >
             All
           </button>
           <button
-            className={`filter-button ${filter === 'income' ? 'active' : ''}`}
-            onClick={() => setFilter('income')}
+            className={`filter-button ${filter === "income" ? "active" : ""}`}
+            onClick={() => setFilter("income")}
           >
             Income
           </button>
           <button
-            className={`filter-button ${filter === 'expense' ? 'active' : ''}`}
-            onClick={() => setFilter('expense')}
+            className={`filter-button ${filter === "expense" ? "active" : ""}`}
+            onClick={() => setFilter("expense")}
           >
             Expense
           </button>
@@ -97,16 +121,20 @@ const TransactionList = ({ transactions, onDeleteTransaction }) => {
               </div>
               <div className="transaction-details">
                 <h3 className="transaction-title">{transaction.description}</h3>
-                <p className="transaction-date">{formatDate(transaction.date)}</p>
+                <p className="transaction-date">
+                  {formatDate(transaction.date)}
+                </p>
               </div>
               <span className={`transaction-amount ${transaction.type}`}>
-                {transaction.type === 'expense' ? '-' : '+'}
+                {transaction.type === "expense" ? "-" : "+"}
                 {formatAmount(transaction.amount)}
               </span>
               <div className="transaction-actions">
                 <button
                   className="action-button"
-                  onClick={() => {/* Edit function */}}
+                  onClick={() => {
+                    /* Edit function */
+                  }}
                   title="Edit transaction"
                 >
                   <svg
@@ -162,4 +190,4 @@ const TransactionList = ({ transactions, onDeleteTransaction }) => {
   );
 };
 
-export default TransactionList; 
+export default TransactionList;

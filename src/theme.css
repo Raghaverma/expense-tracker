@@ -2,31 +2,31 @@
   /* Base colors */
   --background: 0 0% 100%; /* Pure white */
   --foreground: 0 0% 0%; /* Pure black */
-  
+
   /* Card colors */
   --card: 0 0% 98%; /* Slightly off-white for cards */
   --card-foreground: 0 0% 0%;
-  
+
   /* Popover colors */
   --popover: 0 0% 98%;
   --popover-foreground: 0 0% 0%;
-  
+
   /* Primary colors */
   --primary: 0 0% 0%;
   --primary-foreground: 0 0% 100%;
-  
+
   /* Secondary colors */
   --secondary: 0 0% 96%;
   --secondary-foreground: 0 0% 0%;
-  
+
   /* Muted colors */
   --muted: 0 0% 96%;
   --muted-foreground: 0 0% 45%;
-  
+
   /* Accent colors */
   --accent: 0 0% 94%;
   --accent-foreground: 0 0% 0%;
-  
+
   /* Destructive colors */
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
@@ -42,7 +42,8 @@
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 /* Dark mode */
@@ -50,31 +51,31 @@
   /* Base colors */
   --background: 0 0% 0%; /* Pure black */
   --foreground: 0 0% 100%; /* Pure white */
-  
+
   /* Card colors */
   --card: 0 0% 4%; /* Very dark gray for cards */
   --card-foreground: 0 0% 100%;
-  
+
   /* Popover colors */
   --popover: 0 0% 4%;
   --popover-foreground: 0 0% 100%;
-  
+
   /* Primary colors */
   --primary: 0 0% 100%;
   --primary-foreground: 0 0% 0%;
-  
+
   /* Secondary colors */
   --secondary: 0 0% 8%;
   --secondary-foreground: 0 0% 100%;
-  
+
   /* Muted colors */
   --muted: 0 0% 8%;
   --muted-foreground: 0 0% 63%;
-  
+
   /* Accent colors */
   --accent: 0 0% 12%;
   --accent-foreground: 0 0% 100%;
-  
+
   /* Destructive colors */
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
@@ -87,7 +88,15 @@
 
 /* Base styles */
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
 }
@@ -136,4 +145,4 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-} 
+}

@@ -23,7 +23,11 @@
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-light)
+  );
   color: white;
   border: none;
   border-radius: 12px;
@@ -329,4 +333,4 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
-} 
+}

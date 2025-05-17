@@ -66,7 +66,11 @@
 
 .balance-progress {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    var(--primary-light)
+  );
   border-radius: 8px;
   transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -143,17 +147,17 @@
   transition: var(--transition);
 }
 
-.category-icon.rent { 
-  background: linear-gradient(135deg, #FF6B6B, #ee5253);
+.category-icon.rent {
+  background: linear-gradient(135deg, #ff6b6b, #ee5253);
 }
-.category-icon.utilities { 
-  background: linear-gradient(135deg, #4ECDC4, #45b7af);
+.category-icon.utilities {
+  background: linear-gradient(135deg, #4ecdc4, #45b7af);
 }
-.category-icon.food { 
-  background: linear-gradient(135deg, #45B7D1, #3ca3ba);
+.category-icon.food {
+  background: linear-gradient(135deg, #45b7d1, #3ca3ba);
 }
-.category-icon.transport { 
-  background: linear-gradient(135deg, #96CEB4, #88bea3);
+.category-icon.transport {
+  background: linear-gradient(135deg, #96ceb4, #88bea3);
 }
 
 .category-details {
@@ -232,4 +236,4 @@
   .category-amount {
     font-size: 1rem;
   }
-} 
+}

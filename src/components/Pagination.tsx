@@ -1,5 +1,14 @@
-import React from 'react';
-import './Pagination.css';
+import React from "react";
+import "./Pagination.css";
+
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (itemsPerPage: number) => void;
+}
 
 const Pagination = ({
   currentPage,
@@ -7,9 +16,9 @@ const Pagination = ({
   totalItems,
   itemsPerPage,
   onPageChange,
-  onItemsPerPageChange
-}) => {
-  const pageNumbers = [];
+  onItemsPerPageChange,
+}: PaginationProps) => {
+  const pageNumbers: number[] = [];
   let startPage = Math.max(1, currentPage - 2);
   let endPage = Math.min(totalPages, startPage + 4);
 
@@ -21,7 +30,7 @@ const Pagination = ({
     pageNumbers.push(i);
   }
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
       onPageChange(page);
     }
@@ -70,10 +79,7 @@ const Pagination = ({
 
         {startPage > 1 && (
           <>
-            <button
-              className="page-button"
-              onClick={() => handlePageChange(1)}
-            >
+            <button className="page-button" onClick={() => handlePageChange(1)}>
               1
             </button>
             {startPage > 2 && <span className="pagination-dots">...</span>}
@@ -83,7 +89,7 @@ const Pagination = ({
         {pageNumbers.map((number) => (
           <button
             key={number}
-            className={`page-button ${currentPage === number ? 'active' : ''}`}
+            className={`page-button ${currentPage === number ? "active" : ""}`}
             onClick={() => handlePageChange(number)}
           >
             {number}
@@ -92,7 +98,9 @@ const Pagination = ({
 
         {endPage < totalPages && (
           <>
-            {endPage < totalPages - 1 && <span className="pagination-dots">...</span>}
+            {endPage < totalPages - 1 && (
+              <span className="pagination-dots">...</span>
+            )}
             <button
               className="page-button"
               onClick={() => handlePageChange(totalPages)}
@@ -127,13 +135,13 @@ const Pagination = ({
       <div className="pagination-info">
         <span>
           {totalItems === 0 ? (
-            'No items'
+            "No items"
           ) : (
             <>
               <span className="pagination-current">
-                {Math.min((currentPage - 1) * itemsPerPage + 1, totalItems)} -{' '}
+                {Math.min((currentPage - 1) * itemsPerPage + 1, totalItems)} -{" "}
                 {Math.min(currentPage * itemsPerPage, totalItems)}
-              </span>{' '}
+              </span>{" "}
               of {totalItems} items
             </>
           )}
@@ -143,4 +151,4 @@ const Pagination = ({
   );
 };
 
-export default Pagination; 
+export default Pagination;

@@ -16,9 +16,9 @@
   --content-width: 1200px;
 
   /* Shadows */
-  --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  
+  --card-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
   /* Transitions */
   --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -27,7 +27,8 @@
   --background-color: #f8fafc;
   --text-color: #0f172a;
   --text-secondary: #64748b;
-  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 8px 24px -1px rgba(0, 0, 0, 0.05);
+  --card-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.1), 0 8px 24px -1px rgba(0, 0, 0, 0.05);
   --border-color: #e2e8f0;
   --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --header-height: 72px;
@@ -35,7 +36,7 @@
   --blur-bg: rgba(255, 255, 255, 0.8);
 }
 
-[data-theme='dark'] {
+[data-theme="dark"] {
   --primary-color: #818cf8;
   --primary-light: #6366f1;
   --secondary-color: #22d3ee;
@@ -45,7 +46,8 @@
   --text-color: #f1f5f9;
   --text-secondary: #94a3b8;
   --card-bg: #1e293b;
-  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 8px 24px -1px rgba(0, 0, 0, 0.2);
+  --card-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.3), 0 8px 24px -1px rgba(0, 0, 0, 0.2);
   --border-color: #334155;
   --blur-bg: rgba(15, 23, 42, 0.8);
 }
@@ -58,9 +60,9 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--background-color);
@@ -107,7 +109,11 @@ body {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-light)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -0.02em;

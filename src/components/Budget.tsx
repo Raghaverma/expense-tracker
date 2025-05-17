@@ -1,50 +1,72 @@
-import React, { useState, useEffect } from 'react';
-import './Budget.css';
+import React, { useState, useEffect } from "react";
+import "./Budget.css";
 
-const Budget = ({ transactions }) => {
-  const [budgets, setBudgets] = useState(() => {
-    const savedBudgets = localStorage.getItem('budgets');
+type Transaction = {
+  id: string;
+  type: string;
+  category: string;
+  amount: number;
+  [key: string]: any;
+};
+
+type BudgetProps = {
+  transactions: Transaction[];
+};
+
+const Budget = ({ transactions }: BudgetProps) => {
+  const [budgets, setBudgets] = useState<Record<string, number>>(() => {
+    const savedBudgets = localStorage.getItem("budgets");
     return savedBudgets ? JSON.parse(savedBudgets) : {};
   });
 
-  const [newCategory, setNewCategory] = useState('');
-  const [newAmount, setNewAmount] = useState('');
+  const [newCategory, setNewCategory] = useState<string>("");
+  const [newAmount, setNewAmount] = useState<string>("");
 
   useEffect(() => {
-    localStorage.setItem('budgets', JSON.stringify(budgets));
+    localStorage.setItem("budgets", JSON.stringify(budgets));
   }, [budgets]);
 
   const categories = [
-    'rent', 'utilities', 'food', 'transport', 'entertainment',
-    'shopping', 'health', 'travel', 'education', 'other'
+    "rent",
+    "utilities",
+    "food",
+    "transport",
+    "entertainment",
+    "shopping",
+    "health",
+    "travel",
+    "education",
+    "other",
   ];
 
-  const calculateSpentAmount = (category) => {
+  const calculateSpentAmount = (category: string) => {
     return transactions
-      .filter(t => t.type === 'expense' && t.category === category)
-      .reduce((acc, t) => acc + t.amount, 0);
+      .filter(
+        (t: Transaction) => t.type === "expense" && t.category === category,
+      )
+      .reduce((acc: number, t: Transaction) => acc + t.amount, 0);
   };
 
-  const handleSetBudget = (e) => {
+  const handleSetBudget = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (newCategory && newAmount) {
-      setBudgets(prev => ({
+      setBudgets((prev: Record<string, number>) => ({
         ...prev,
-        [newCategory]: parseFloat(newAmount)
+        [newCategory]: parseFloat(newAmount),
       }));
-      setNewCategory('');
-      setNewAmount('');
+      setNewCategory("");
+      setNewAmount("");
     }
   };
 
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
     }).format(amount);
   };
 
-  const calculateProgress = (spent, budget) => {
+  const calculateProgress = (spent: number, budget: number) => {
     return Math.min((spent / budget) * 100, 100);
   };
 
@@ -59,7 +81,7 @@ const Budget = ({ transactions }) => {
             required
           >
             <option value="">Select Category</option>
-            {categories.map(category => (
+            {categories.map((category) => (
               <option key={category} value={category}>
                 {category.charAt(0).toUpperCase() + category.slice(1)}
               </option>
@@ -74,12 +96,14 @@ const Budget = ({ transactions }) => {
             step="0.01"
             required
           />
-          <button type="submit" className="set-budget-btn">Set Budget</button>
+          <button type="submit" className="set-budget-btn">
+            Set Budget
+          </button>
         </form>
       </div>
 
       <div className="budget-grid">
-        {categories.map(category => {
+        {categories.map((category) => {
           const budget = budgets[category] || 0;
           const spent = calculateSpentAmount(category);
           const progress = calculateProgress(spent, budget);
@@ -92,11 +116,14 @@ const Budget = ({ transactions }) => {
                 <span className="budget-amount">{formatCurrency(budget)}</span>
               </div>
               <div className="progress-container">
-                <div 
+                <div
                   className="progress-bar"
-                  style={{ 
+                  style={{
                     width: `${progress}%`,
-                    backgroundColor: progress >= 100 ? 'var(--danger-color)' : 'var(--primary-color)'
+                    backgroundColor:
+                      progress >= 100
+                        ? "var(--danger-color)"
+                        : "var(--primary-color)",
                   }}
                 ></div>
               </div>
@@ -118,4 +145,4 @@ const Budget = ({ transactions }) => {
   );
 };
 
-export default Budget; 
+export default Budget;
